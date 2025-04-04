@@ -50,7 +50,7 @@ public class ObradaZahteva extends Thread {
                     so.setOdg(k.vratiPred());
                     break;
                 case operacije.Operacije.sacuvaj_prof_i_ang:
-                    so.setOdg(k.sacuvaj_prof_i_ang((List<Angazovanje>)kz.getParam()));
+                    so.setOdg(k.sacuvaj_prof_i_ang((Izmena)kz.getParam()));
                     break;
                 case operacije.Operacije.vrati_angazovanja:
                     so.setOdg(k.vrati_angazovanja((Profesor)kz.getParam()));

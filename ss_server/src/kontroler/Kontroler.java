@@ -13,6 +13,7 @@ import model.Predmet;
 import model.Profesor;
 import model.Radnik;
 import model.Wrapper;
+import model.Wrapprof;
 import model.Zvanje;
 
 /**
@@ -58,8 +59,8 @@ public class Kontroler {
         return dbb.vratiPred();
     }
 
-    public boolean sacuvaj_prof_i_ang(List<Angazovanje> par) {
-        return dbb.sacuvaj_prof_i_ang( par);
+    public boolean sacuvaj_prof_i_ang(Izmena i) {
+        return dbb.sacuvaj_prof_i_ang(i);
     }
 
     public List<Angazovanje> vrati_angazovanja(Profesor profesor) {
@@ -72,6 +73,10 @@ public class Kontroler {
 
     public List<Wrapper> vrati_broj() {
         return dbb.vratiBroj();
+    }
+
+    public List<Wrapprof> vratiProf_i_brAng() {
+        return dbb.vratiProf_i_brAng();
     }
     
     

@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -11,16 +12,16 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author USER
  */
-public class ModelServer extends AbstractTableModel{
-    private List<Wrapper>w;
-    private String[]kol=new String []{"zvanje", "broj"};
-    public ModelServer(List<Wrapper>w)
+public class ModelTabeleProf extends AbstractTableModel {
+    private List<Wrapprof>profesori;
+    private String[]kol=new String []{"profesor", "zvanje","broj_predmeta"};
+    public ModelTabeleProf(List<Wrapprof>profesori)
     {
-     this.w=w;   
+     this.profesori=profesori;   
     }
     @Override
     public int getRowCount() {
-        return w.size();
+        return profesori.size();
     }
 
     @Override
@@ -30,12 +31,14 @@ public class ModelServer extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Wrapper a=w.get(rowIndex);
+        Wrapprof a=profesori.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return a.getZ();
+                return a.getIme();
             case 1:
-                return a.getBr();
+                return a.getZ();
+            case 2:
+                return a.getBroj();
              default:
                 throw new AssertionError();
         }
@@ -46,12 +49,12 @@ public class ModelServer extends AbstractTableModel{
         return kol[column];
     }
 
-    public List<Wrapper> getW() {
-        return w;
+    public List<Wrapprof> getProfesori() {
+        return profesori;
     }
 
-    public void setW(List<Wrapper> w) {
-        this.w = w;
+    public void setProfesori(List<Wrapprof> profesori) {
+        this.profesori = profesori;
     }
-    
+
 }

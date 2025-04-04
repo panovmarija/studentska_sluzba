@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import model.Angazovanje;
+import model.Izmena;
 import model.ModelTabeleAng;
 import model.ModelTabeleProf;
 import model.Predmet;
@@ -228,7 +229,7 @@ public class GlavnaForma extends javax.swing.JDialog {
         {
             a.setP(p);
         }
-        komunikacija.Komunikacija.getInstance().posaljiZahtev(new KlijentZahtev(operacije.Operacije.sacuvaj_prof_i_ang, ma.getAng()));
+        komunikacija.Komunikacija.getInstance().posaljiZahtev(new KlijentZahtev(operacije.Operacije.sacuvaj_prof_i_ang, new Izmena(ma.getAng(), p)));
         ServerOdg so=komunikacija.Komunikacija.getInstance().primiOdg();
         if((boolean)so.getOdg())
             JOptionPane.showMessageDialog(this, "uspesno sacuvano");

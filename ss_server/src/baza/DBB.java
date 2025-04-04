@@ -14,6 +14,7 @@ import model.Predmet;
 import model.Profesor;
 import model.Zvanje;
 import model.Wrapper;
+import model.Wrapprof;
 
 /**
  *
@@ -56,9 +57,9 @@ public class DBB {
         return l;
     }
 
-    public boolean sacuvaj_prof_i_ang(List<Angazovanje> par) {
+    public boolean sacuvaj_prof_i_ang(Izmena i) {
         try {
-            Profesor p = par.get(0).getP();
+            Profesor p = i.getP();
             int id = vratiId();
             p.setId(id);
 //        id,ime,prez,zvanje,mail
@@ -76,7 +77,7 @@ public class DBB {
 //        prof,pred, dat, mail
             String u2 = "insert into ang values (?,?,?,?)";
             PreparedStatement ps2 = Konekcija.getInstance().getConn().prepareStatement(u2);
-            for (Angazovanje a : par) {
+            for (Angazovanje a : i.getA()) {
                 ps2.setInt(1, id);
                 ps2.setInt(2, a.getPred().getSifra());
                 ps2.setDate(3, a.getDat() == null ? null : new java.sql.Date(a.getDat().getTime()));
@@ -197,6 +198,23 @@ public class DBB {
             while(rs.next())
             {
                 Wrapper w=new Wrapper(Zvanje.valueOf(rs.getString("zvanje")), rs.getInt("broj"));
+                l.add(w);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return l;
+    }
+
+    public List<Wrapprof> vratiProf_i_brAng() {
+            List<Wrapprof> l=new LinkedList<>();
+        try {
+            String u = "SELECT  p.id,p.ime, p.prez, p.zvanje ,COUNT(*) broj FROM prof p LEFT JOIN ang a ON(a.prof=p.id) GROUP BY p.id,p.ime, p.prez, p.zvanje";
+            Statement s=Konekcija.getInstance().getConn().createStatement();
+            ResultSet rs=s.executeQuery(u);
+            while(rs.next())
+            {
+                Wrapprof w=new Wrapprof(rs.getString("ime")+" "+rs.getString("prez"), Zvanje.valueOf(rs.getString("zvanje")), rs.getInt("broj"));
                 l.add(w);
             }
         } catch (SQLException ex) {

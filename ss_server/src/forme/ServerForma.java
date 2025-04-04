@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import model.ModelServer;
+import model.ModelTabeleProf;
 import model.Zvanje;
 import niti.PokreniServer;
 
@@ -20,7 +21,8 @@ public class ServerForma extends javax.swing.JFrame {
     /**
      * Creates new form ServerForma
      */
-    private model.ModelServer m;
+    private final model.ModelServer m;
+    private final model.ModelTabeleProf mp;
     private PokreniServer p;
     public ServerForma() {
         initComponents();
@@ -28,13 +30,27 @@ public class ServerForma extends javax.swing.JFrame {
         p.start();
         m=new ModelServer(kontroler.Kontroler.getInstance().vrati_broj());
         jTable1.setModel(m);
-        Timer t=new Timer(3000, new ActionListener() {
+        Timer t1=new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                osveziTabelu();
+                m.setW(kontroler.Kontroler.getInstance().vrati_broj());
+                m.fireTableDataChanged();
+                System.out.println("osvezeno1 "+m.getRowCount());
             }
         });
-        t.start();
+        mp=new ModelTabeleProf(kontroler.Kontroler.getInstance().vratiProf_i_brAng());
+        jTable2.setModel(mp);
+        
+        Timer t2=new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mp.setProfesori(kontroler.Kontroler.getInstance().vratiProf_i_brAng());
+                mp.fireTableDataChanged();
+                System.out.println("osvezeno2");
+            }
+        });
+        t1.start();
+        t2.start();
         }
 
     /**
@@ -48,6 +64,8 @@ public class ServerForma extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,21 +96,38 @@ public class ServerForma extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,14 +168,15 @@ public class ServerForma extends javax.swing.JFrame {
         });
     }
     
-    private void osveziTabelu() {
-        m=new ModelServer(kontroler.Kontroler.getInstance().vrati_broj());
-        jTable1.setModel(m);
-        System.out.println("osvezeno");
+    private void osveziTabelu1() {
     }
     
+    private void osveziTabelu2() {
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
